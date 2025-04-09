@@ -21,7 +21,7 @@ const FeedbackForm = ({ onBack, onSuccess }) => {
       form.resetFields();
       onSuccess();
     } catch (err) {
-      setError('Failed to submit. Try again.');
+      setError(err?.response?.data?.message ?? 'Failed to submit. Try again.');
     }
   };
 
@@ -35,7 +35,7 @@ const FeedbackForm = ({ onBack, onSuccess }) => {
         <Form.Item
           label="Customer Name"
           name="customer_name"
-          rules={[{ required: true, message: 'Please enter your customer name' }]}
+          rules={[{ required: false, message: 'Please enter your customer name' }]}
         >
           <Input />
         </Form.Item>

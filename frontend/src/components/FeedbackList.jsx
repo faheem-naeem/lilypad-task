@@ -7,11 +7,11 @@ const { Option } = Select;
 
 const FeedbackList = ({ onAddNew }) => {
   const [feedbacks, setFeedbacks] = useState([]);
-  const [ratingFilter, setRatingFilter] = useState('');
+  const [ratingFilter, setRatingFilter] = useState(null);
 
-  const getData = async (rating = null) => {
+  const getData = async () => {
     try {
-      const data = await fetchFeedbacks(rating);
+      const data = await fetchFeedbacks(ratingFilter);
       setFeedbacks(data);
     } catch (error) {
       console.error("Failed to fetch feedbacks:", error);
@@ -20,12 +20,7 @@ const FeedbackList = ({ onAddNew }) => {
 
   useEffect(() => {
     getData();
-  }, []);
-
-  const handleRatingChange = (value) => {
-    setRatingFilter(value);
-    getData(value || null);
-  };
+  }, [ratingFilter]);
 
   const columns = [
     {
@@ -68,7 +63,7 @@ const FeedbackList = ({ onAddNew }) => {
         <span style={{ marginRight: 8 }}>Filter by Rating:</span>
         <Select
           value={ratingFilter}
-          onChange={handleRatingChange}
+          onChange={(value) => setRatingFilter(value || null)}
           style={{ width: 160 }}
           allowClear
           placeholder="Select rating"
